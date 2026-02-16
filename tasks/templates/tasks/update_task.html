@@ -1,0 +1,22 @@
+{% extends 'tasks/main.html' %}
+
+{% block content %}
+<div class="todo-card">
+    <div class="d-flex align-items-center mb-4">
+        <a href="{% url 'list' %}" class="btn-back"><i class="fa-solid fa-arrow-left"></i></a>
+        <h2 class="ms-3 mb-0">Edit Task</h2>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="edit-form-group">
+            {{ form.title }}
+        </div>
+        
+        <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn-submit">Update Task</button>
+            <a href="{% url 'list' %}" class="btn-cancel text-center">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'tasks/main.html' %}
+
+{% block content %}
+<div class="todo-card">
+    <div class="header-section">
+        <h1>My To-Do</h1>
+        <p class="subtitle">Stay organized, stay productive.</p>
+    </div>
+
+    <div class="auth-nav">
+        {% if request.user.is_authenticated %}
+            <div class="user-pill">
+                <i class="fa-solid fa-user-circle"></i>
+                <span>Welcome back, {{ request.user.username }}!</span>
+            </div>
+            <a href="{% url 'logout' %}" class="btn-auth-glass">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+        {% else %}
+            <div class="auth-group">
+                <a href="{% url 'login' %}" class="btn-auth-glass">Login</a>
+                <a href="{% url 'register' %}" class="btn-auth-solid">Register</a>
+            </div>
+        {% endif %}
+    </div> <form method="POST" class="add-task-form">
+        {% csrf_token %}
+        {{ form.title }} 
+        <button type="submit" class="btn-submit">Add</button>
+    </form>
+
+    <div class="task-list">
+        {% for task in tasks %}
+        <div class="task-item">
+            <span class="task-text {% if task.completed %}completed{% endif %}">
+                {{ task.title }}
+            </span>
+            <div class="actions">
+                <a href="{% url 'update_task' task.id %}" class="btn-edit">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                </a>
+                <a href="{% url 'delete' task.id %}" class="btn-delete">
+                    <i class="fa-solid fa-trash-can"></i> Delete
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
